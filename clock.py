@@ -179,6 +179,7 @@ def systemShutDown(channel):
 if __name__ == "__main__":
     second = 0
     i = 0
+    j = 0
 
     initClock()
 
@@ -195,9 +196,10 @@ if __name__ == "__main__":
             # print("Stunden: {}".format(pixel_hours))
             # print("Minuten: {}".format(pixel_minutes))
 
-            if second == 0 and i == 0:
+            if second == 0 and i == 0 and j == 0:
                 # Run init only once per minute
                 i += 1
+                j += 1
                 initClock()
 
                 if debug_mode:
@@ -275,6 +277,7 @@ if __name__ == "__main__":
                     print("MINUTE")
             elif pixel_seconds == pixel_hours:
                 # If second and hour are on the same pixel
+                j = 0
                 pixels[pixel_seconds] = yellow
                 if show_quarter_marker and \
                         (pixel_reverse == quarter_marker_15 or
