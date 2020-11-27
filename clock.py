@@ -11,7 +11,7 @@ import os
 absolute_led = int(60)
 
 # Debugging on/off
-debug_mode = False
+debug_mode = True
 
 # Show markers on/off
 show_hour_marker = True
