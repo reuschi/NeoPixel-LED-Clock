@@ -37,25 +37,25 @@ quarter_marker_30 = int(2 * absolute_led / 4)
 quarter_marker_45 = int(3 * absolute_led / 4)
 
 # Set colors
-red = (140, 0, 0)
-yellow = (140, 140, 0)
-green = (0, 140, 0)
-cyan = (0, 140, 140)
-blue = (0, 0, 140)
+red = (255, 0, 0)
+yellow = (255, 255, 0)
+green = (0, 255, 0)
+cyan = (0, 255, 255)
+blue = (0, 0, 255)
 violett = (140, 0, 120)
-quarter_marker = (35, 30, 30)
+quarter_marker = (70, 60, 60)
 hour_marker = (7, 5, 5)
 led_off = (0, 0, 0)
 orange = (140, 55, 0)
 bright_white = (255, 255, 255)
 
 # Initialize NeoPixels
-pixels = neopixel.NeoPixel(board.D18, absolute_led, bpp=3, brightness=0.2, auto_write=False, pixel_order="GRB")
+pixels = neopixel.NeoPixel(board.D18, absolute_led, bpp=3, brightness=0.5, auto_write=False, pixel_order="GRB")
 
 # Initialize GPIOs für Buttons
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(20, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 ######## ---------------- ########
 
@@ -187,14 +187,11 @@ if __name__ == "__main__":
     GPIO.add_event_detect(23, GPIO.RISING, callback=switchClockMode, bouncetime=400)
 
     # Shutdown the system
-    GPIO.add_event_detect(16, GPIO.RISING, callback=systemShutDown, bouncetime=400)
+    GPIO.add_event_detect(20, GPIO.RISING, callback=systemShutDown, bouncetime=400)
 
     try:
         while True:
             pixel_hours, pixel_minutes, pixel_seconds = getTime()
-            # print("Sekunden: {}". format(pixel_seconds))
-            # print("Stunden: {}".format(pixel_hours))
-            # print("Minuten: {}".format(pixel_minutes))
 
             if second == 0 and i == 0 and j == 0:
                 # Run init only once per minute
