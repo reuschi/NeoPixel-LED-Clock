@@ -54,8 +54,8 @@ pixels = neopixel.NeoPixel(board.D18, absolute_led, bpp=3, brightness=0.2, auto_
 
 # Initialize GPIOs für Buttons
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 ######## ---------------- ########
 
@@ -184,10 +184,10 @@ if __name__ == "__main__":
     initClock()
 
     # Switch clock mode to show quarter marks or not
-    GPIO.add_event_detect(26, GPIO.FALLING, callback=switchClockMode, bouncetime=400)
+    GPIO.add_event_detect(23, GPIO.FALLING, callback=switchClockMode, bouncetime=400)
 
     # Shutdown the system
-    GPIO.add_event_detect(13, GPIO.RISING, callback=systemShutDown, bouncetime=400)
+    GPIO.add_event_detect(16, GPIO.FALLING, callback=systemShutDown, bouncetime=400)
 
     try:
         while True:
