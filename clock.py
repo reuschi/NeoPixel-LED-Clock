@@ -184,10 +184,10 @@ if __name__ == "__main__":
     initClock()
 
     # Switch clock mode to show quarter marks or not
-    GPIO.add_event_detect(23, GPIO.FALLING, callback=switchClockMode, bouncetime=400)
+    GPIO.add_event_detect(23, GPIO.RISING, callback=switchClockMode, bouncetime=400)
 
     # Shutdown the system
-    GPIO.add_event_detect(16, GPIO.FALLING, callback=systemShutDown, bouncetime=400)
+    GPIO.add_event_detect(16, GPIO.RISING, callback=systemShutDown, bouncetime=400)
 
     try:
         while True:
