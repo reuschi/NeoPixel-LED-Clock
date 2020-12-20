@@ -189,8 +189,8 @@ if __name__ == "__main__":
     # Shutdown the system
     GPIO.add_event_detect(20, GPIO.RISING, callback=systemShutDown, bouncetime=400)
 
-    try:
-        while True:
+    while True:
+        try:
             pixel_hours, pixel_minutes, pixel_seconds = getTime()
 
             if second == 0 and i == 0 and j == 0:
@@ -386,10 +386,14 @@ if __name__ == "__main__":
                 else:
                     pixels[pixel_reverse] = led_off
 
-            pixels.show()
+            if pixels:
+                pixels.show()
             time.sleep(0.05)
-
-    except KeyboardInterrupt:
-        # Terminate the script and switch off all leds
-        print("Press Ctrl-C to terminate while statement")
-        pixels.deinit()
+        except AttributeError:
+            print("AttributeError")
+            time.sleep(1)
+        except KeyboardInterrupt:
+            # Terminate the script and switch off all leds
+            print("Press Ctrl-C to terminate while statement")
+            pixels.deinit()
+            break
