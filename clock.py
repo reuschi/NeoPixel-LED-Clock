@@ -193,10 +193,10 @@ if __name__ == "__main__":
         try:
             pixel_hours, pixel_minutes, pixel_seconds = getTime()
 
-            if second == 0 and i == 0 and j == 0:
+            if second == 0 and i == 0:
                 # Run init only once per minute
                 i += 1
-                j += 1
+                #j += 1
                 initClock()
 
                 if debug_mode:
@@ -206,6 +206,9 @@ if __name__ == "__main__":
                 pixel_reverse = absolute_led - 1
             else:
                 pixel_reverse = pixel_seconds - 1
+
+            if pixel_seconds == 59:
+                i = 0
 
             if pixel_seconds == pixel_hours and pixel_seconds == pixel_minutes:
                 # If second, minute and hour are on the same pixel
@@ -241,7 +244,7 @@ if __name__ == "__main__":
                     print("SECOND/MINUTE/HOUR")
             elif pixel_seconds == pixel_minutes:
                 # If second and minute are on the same pixel
-                i = 0
+                #i = 0
                 pixels[pixel_seconds] = violett
                 if show_quarter_marker and \
                         (pixel_reverse == quarter_marker_15 or
