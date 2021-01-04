@@ -57,7 +57,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(20, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-######## ---------------- ########
+##################################
 
 
 def getCurrentTime(param):
@@ -80,10 +80,12 @@ def initClock():
     # Set marker pixels
     pixels[hour_marker_0] = orange
     if show_quarter_marker:
+        # Make the quarter marker brighter than the hour marker
         pixels[quarter_marker_15] = quarter_marker
         pixels[quarter_marker_30] = quarter_marker
         pixels[quarter_marker_45] = quarter_marker
     elif show_hour_marker and not show_quarter_marker:
+        # Make the quarter marker and the hour marker to the same brightness
         pixels[quarter_marker_15] = hour_marker
         pixels[quarter_marker_30] = hour_marker
         pixels[quarter_marker_45] = hour_marker
@@ -178,8 +180,7 @@ def systemShutDown(channel):
 
 if __name__ == "__main__":
     second = 0
-    i = 0
-    j = 0
+    init = True
 
     initClock()
 
@@ -193,22 +194,23 @@ if __name__ == "__main__":
         try:
             pixel_hours, pixel_minutes, pixel_seconds = getTime()
 
-            if second == 0 and i == 0:
+            if seconds == 0 and init:
                 # Run init only once per minute
-                i += 1
-                #j += 1
                 initClock()
+                init = False
 
                 if debug_mode:
                     print("INIT")
 
+            # Define the pixel in front of the current pixel
             if pixel_seconds == 0:
                 pixel_reverse = absolute_led - 1
             else:
                 pixel_reverse = pixel_seconds - 1
 
             if pixel_seconds == 59:
-                i = 0
+                # Reset counter for Init
+                init = False
 
             if pixel_seconds == pixel_hours and pixel_seconds == pixel_minutes:
                 # If second, minute and hour are on the same pixel
@@ -244,7 +246,6 @@ if __name__ == "__main__":
                     print("SECOND/MINUTE/HOUR")
             elif pixel_seconds == pixel_minutes:
                 # If second and minute are on the same pixel
-                #i = 0
                 pixels[pixel_seconds] = violett
                 if show_quarter_marker and \
                         (pixel_reverse == quarter_marker_15 or
@@ -277,7 +278,6 @@ if __name__ == "__main__":
                     print("MINUTE")
             elif pixel_seconds == pixel_hours:
                 # If second and hour are on the same pixel
-                j = 0
                 pixels[pixel_seconds] = yellow
                 if show_quarter_marker and \
                         (pixel_reverse == quarter_marker_15 or
