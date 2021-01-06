@@ -11,7 +11,7 @@ import os
 absolute_led = int(60)
 
 # Debugging on/off
-debug_mode = True
+debug_mode = False
 
 # Show markers on/off
 show_hour_marker = True
@@ -124,17 +124,7 @@ def getTime():
     minute = getCurrentTime("minute")
     second = getCurrentTime("second")
 
-    if minute < 12:
-        pixel_hours = int(hour * absolute_led / 12)
-    elif 12 <= minute < 24:
-        pixel_hours = int(hour * absolute_led / 12) + 1
-    elif 24 <= minute < 36:
-        pixel_hours = int(hour * absolute_led / 12) + 2
-    elif 36 <= minute < 48:
-        pixel_hours = int(hour * absolute_led / 12) + 3
-    elif minute >= 48:
-        pixel_hours = int(hour * absolute_led / 12) + 4
-
+    pixel_hours = int((hour * absolute_led / 12) + ((absolute_led / 12) * minute / 60))
     pixel_minutes = int(minute * absolute_led / 60)
     pixel_seconds = int(second * absolute_led / 60)
 
@@ -208,7 +198,7 @@ if __name__ == "__main__":
             else:
                 pixel_reverse = pixel_seconds - 1
 
-            if pixel_seconds == 59:
+            if pixel_seconds == absolute_led - 1:
                 # Reset counter for Init
                 init = False
 
