@@ -60,7 +60,7 @@ GPIO.setup(20, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 ##################################
 
 
-def getCurrentTime(param):
+def get_current_time(param):
     # Return current seconds, minutes or hours
     if param == "hour":
         return int(time.strftime("%I"))
@@ -70,9 +70,9 @@ def getCurrentTime(param):
         return int(time.strftime("%S"))
 
 
-def initClock():
+def init_clock():
     # Initialize the clock
-    pixel_hours, pixel_minutes, pixel_seconds = getTime()
+    pixel_hours, pixel_minutes, pixel_seconds = get_time()
 
     # Clear all pixels
     pixels.fill((0, 0, 0))
@@ -114,15 +114,15 @@ def initClock():
     pixels.show()
 
 
-def getTime():
+def get_time():
     # Get current local time
-    global second
+    #global second
 
-    hour = getCurrentTime("hour")
+    hour = get_current_time("hour")
     if hour == 12:
         hour = 0
-    minute = getCurrentTime("minute")
-    second = getCurrentTime("second")
+    minute = get_current_time("minute")
+    second = get_current_time("second")
 
     pixel_hours = int((hour * absolute_led / 12) + ((absolute_led / 12) * minute / 60))
     pixel_minutes = int(minute * absolute_led / 60)
@@ -131,7 +131,7 @@ def getTime():
     return pixel_hours, pixel_minutes, pixel_seconds
 
 
-def switchClockMode(channel):
+def switch_clock_mode(channel):
     # Switch between the different clock modes and set only quarter marker, only hour marker, quarter and hour marker or no marker
     global show_hour_marker
     global show_quarter_marker
@@ -157,10 +157,10 @@ def switchClockMode(channel):
         if debug_mode:
             print("Clock mode changed - ClockMode 4")
 
-    initClock()
+    init_clock()
 
 
-def systemShutDown(channel):
+def system_shutdown(channel):
     # Shutdown system
     print("!!!! SYSTEM IS GOING TO SHUTDOWN !!!!")
     pixels.deinit()
@@ -169,24 +169,24 @@ def systemShutDown(channel):
 
 
 if __name__ == "__main__":
-    second = 0
+    #second = 0
     init = True
 
-    initClock()
+    init_clock()
 
     # Switch clock mode to show quarter marks or not
-    GPIO.add_event_detect(23, GPIO.RISING, callback=switchClockMode, bouncetime=400)
+    GPIO.add_event_detect(23, GPIO.RISING, callback=switch_clock_mode, bouncetime=400)
 
     # Shutdown the system
-    GPIO.add_event_detect(20, GPIO.RISING, callback=systemShutDown, bouncetime=400)
+    GPIO.add_event_detect(20, GPIO.RISING, callback=system_shutdown, bouncetime=400)
 
     while True:
         try:
-            pixel_hours, pixel_minutes, pixel_seconds = getTime()
+            pixel_hours, pixel_minutes, pixel_seconds = get_time()
 
-            if seconds == 0 and init:
+            if pixel_seconds == 0 and init:
                 # Run init only once per minute
-                initClock()
+                init_clock()
                 init = False
 
                 if debug_mode:
