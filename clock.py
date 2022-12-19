@@ -186,6 +186,7 @@ if __name__ == "__main__":
 
             if pixel_seconds == 0 and init:
                 # Run init only once per minute
+                # new comment
                 init_clock()
                 init = False
 
