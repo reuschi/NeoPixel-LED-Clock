@@ -186,7 +186,6 @@ if __name__ == "__main__":
 
             if pixel_seconds == 0 and init:
                 # Run init only once per minute
-                # new comment
                 init_clock()
                 init = False
 
@@ -206,7 +205,11 @@ if __name__ == "__main__":
             if pixel_seconds == pixel_hours and pixel_seconds == pixel_minutes:
                 # If second, minute and hour are on the same pixel
                 pixels[pixel_seconds] = bright_white
-                if show_quarter_marker and \
+                if pixel_reverse == pixel_minutes:
+                    pixels[pixel_reverse] = cyan
+                elif pixel_reverse == 0 and pixel_minutes > 0:
+                    pixels[pixel_reverse] = orange
+                elif show_quarter_marker and \
                         (pixel_reverse == quarter_marker_15 or
                          pixel_reverse == quarter_marker_30 or
                          pixel_reverse == quarter_marker_45):
@@ -226,10 +229,6 @@ if __name__ == "__main__":
                          pixel_reverse == hour_marker_10 or
                          pixel_reverse == hour_marker_11):
                     pixels[pixel_reverse] = hour_marker
-                elif pixel_reverse == pixel_minutes:
-                    pixels[pixel_reverse] = cyan
-                elif pixel_reverse == 0 and pixel_minutes > 0:
-                    pixels[pixel_reverse] = orange
                 else:
                     pixels[pixel_reverse] = led_off
 
@@ -238,7 +237,11 @@ if __name__ == "__main__":
             elif pixel_seconds == pixel_minutes:
                 # If second and minute are on the same pixel
                 pixels[pixel_seconds] = violett
-                if show_quarter_marker and \
+                if pixel_reverse == pixel_hours:
+                    pixels[pixel_reverse] = green
+                elif pixel_reverse == 0 and not pixel_reverse == pixel_hours:
+                    pixels[pixel_reverse] = orange
+                elif show_quarter_marker and \
                         (pixel_reverse == quarter_marker_15 or
                          pixel_reverse == quarter_marker_30 or
                          pixel_reverse == quarter_marker_45):
@@ -258,10 +261,6 @@ if __name__ == "__main__":
                          pixel_reverse == hour_marker_10 or
                          pixel_reverse == hour_marker_11):
                     pixels[pixel_reverse] = hour_marker
-                elif pixel_reverse == pixel_hours:
-                    pixels[pixel_reverse] = green
-                elif pixel_reverse == 0 and not pixel_reverse == pixel_hours:
-                    pixels[pixel_reverse] = orange
                 else:
                     pixels[pixel_reverse] = led_off
 
@@ -270,7 +269,11 @@ if __name__ == "__main__":
             elif pixel_seconds == pixel_hours:
                 # If second and hour are on the same pixel
                 pixels[pixel_seconds] = yellow
-                if show_quarter_marker and \
+                if pixel_reverse == pixel_minutes:
+                    pixels[pixel_reverse] = blue
+                elif pixel_reverse == 0 and not pixel_reverse == pixel_minutes:
+                    pixels[pixel_reverse] = orange
+                elif show_quarter_marker and \
                         (pixel_reverse == quarter_marker_15 or
                          pixel_reverse == quarter_marker_30 or
                          pixel_reverse == quarter_marker_45):
@@ -290,10 +293,6 @@ if __name__ == "__main__":
                          pixel_reverse == hour_marker_10 or
                          pixel_reverse == hour_marker_11):
                     pixels[pixel_reverse] = hour_marker
-                elif pixel_reverse == pixel_minutes:
-                    pixels[pixel_reverse] = blue
-                elif pixel_reverse == 0 and not pixel_reverse == pixel_minutes:
-                    pixels[pixel_reverse] = orange
                 else:
                     pixels[pixel_reverse] = led_off
 
@@ -302,7 +301,11 @@ if __name__ == "__main__":
             elif pixel_minutes == pixel_hours and pixel_seconds != pixel_minutes:
                 # If minute and hour only are on the same pixel
                 pixels[pixel_seconds] = red
-                if show_quarter_marker and \
+                if pixel_reverse == pixel_minutes:
+                    pixels[pixel_reverse] = cyan
+                elif pixel_reverse == 0 and not pixel_reverse == pixel_minutes:
+                    pixels[pixel_reverse] = orange
+                elif show_quarter_marker and \
                         (pixel_reverse == quarter_marker_15 or
                          pixel_reverse == quarter_marker_30 or
                          pixel_reverse == quarter_marker_45):
@@ -322,10 +325,6 @@ if __name__ == "__main__":
                          pixel_reverse == hour_marker_10 or
                          pixel_reverse == hour_marker_11):
                     pixels[pixel_reverse] = hour_marker
-                elif pixel_reverse == pixel_minutes:
-                    pixels[pixel_reverse] = cyan
-                elif pixel_reverse == 0 and not pixel_reverse == pixel_minutes:
-                    pixels[pixel_reverse] = orange
                 else:
                     pixels[pixel_reverse] = led_off
 
@@ -355,7 +354,9 @@ if __name__ == "__main__":
             else:
                 # In any other case
                 pixels[pixel_seconds] = red
-                if show_quarter_marker and \
+                if pixel_reverse == 0:
+                    pixels[pixel_reverse] = orange
+                elif show_quarter_marker and \
                         (pixel_reverse == quarter_marker_15 or
                          pixel_reverse == quarter_marker_30 or
                          pixel_reverse == quarter_marker_45):
@@ -375,14 +376,15 @@ if __name__ == "__main__":
                          pixel_reverse == hour_marker_10 or
                          pixel_reverse == hour_marker_11):
                     pixels[pixel_reverse] = hour_marker
-                elif pixel_reverse == 0:
-                    pixels[pixel_reverse] = orange
                 else:
                     pixels[pixel_reverse] = led_off
 
             if pixels:
                 pixels.show()
             time.sleep(0.05)
+
+            if pixel_seconds == 59:
+                init = True
         except AttributeError:
             print("AttributeError")
             time.sleep(1)
