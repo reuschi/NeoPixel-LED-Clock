@@ -13,7 +13,7 @@ import RPi.GPIO as GPIO
 ABSOLUTE_LED = int(60)
 
 # Debugging on/off
-DEBUG_MODE = True
+DEBUG_MODE = False
 
 # Show markers on/off
 SHOW_HOUR_MARKER = True
@@ -121,7 +121,6 @@ def init_clock():
 
 def get_time():
     """ Get current local time """
-    #global second
 
     hour = get_current_time("hour")
     if hour == 12:
@@ -176,7 +175,6 @@ def system_shutdown(_channel):
 
 
 if __name__ == "__main__":
-    #second = 0
     INIT = True
 
     init_clock()
@@ -344,8 +342,6 @@ if __name__ == "__main__":
                 pixels.show()
             time.sleep(0.05)
 
-            #if pixel_seconds == 59:
-            #    INIT = True
         except AttributeError:
             print("AttributeError")
             time.sleep(1)
